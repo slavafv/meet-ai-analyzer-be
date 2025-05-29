@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { BatchClient } from "@speechmatics/batch-client";
 import { openAsBlob } from "node:fs";
+import fs from "fs/promises";
 
 dotenv.config();
 
@@ -51,6 +52,8 @@ app.post("/upload", (req, res) => {
       res.status(200).json({ transcript: result });
     } catch (e) {
       res.status(500).json({ error: e.message });
+    } finally {
+      try { await fs.unlink(filePath); } catch {}
     }
   });
 });
