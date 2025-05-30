@@ -128,9 +128,9 @@ app.post("/upload", (req, res) => {
           lastError = e;
           // Если ошибка лимита — пробуем другой вариант, иначе прерываем
           if (
-            e.name === 'SpeechmaticsResponseError' ||
-            e.response?.error === 'Forbidden' ||
-            e.response?.detail?.includes('limit')
+            e.name === 'SpeechmaticsResponseError' &&
+            (e.response?.error === 'Forbidden' ||
+            e.response?.detail?.includes('limit'))
           ) {
             triedCombos.add(config.key);
             console.log('===>> limit error, config.key:', config.key)
